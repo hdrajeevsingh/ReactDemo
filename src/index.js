@@ -1,4 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App'
-ReactDOM.render(<App/>,document.getElementById('app'))
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import './stylesheets/main.scss';
+import App from './components/App';
+import { reducers } from './reducers/index';
+
+
+
+  let users = [];
+  for(let i=0;i<10;i++){
+    users.push(
+      {
+        id:i,
+        username:'rajeev '+i,
+        job:'Employee '+i
+      }
+    )
+  }
+  const initial_state = {
+    users:users
+  }
+
+const store = createStore(reducers,initial_state);
+ReactDOM.render(
+  <Provider store={store}>
+  <App/>
+  </Provider>,
+  document.getElementById('app'))
