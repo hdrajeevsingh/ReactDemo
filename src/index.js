@@ -19,7 +19,9 @@ import { reducers } from './reducers/index';
     )
   }
   const initial_state = {
-    users:users
+    users:{
+      list: users
+    }
   }
 
 const store = createStore(reducers,initial_state);

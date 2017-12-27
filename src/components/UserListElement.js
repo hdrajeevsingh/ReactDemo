@@ -1,6 +1,12 @@
 import React from 'react';
 import { Button, Glyphicon } from 'react-bootstrap';
-export default class UserListElement extends React.Component{
+import { connect } from 'react-redux';
+class UserListElement extends React.Component{
+  constructor(props){
+    super(props);
+    //bind this to event methods
+    this.modalDeleteShow = this.modalDeleteShow.bind(this);
+  }
    render(){
      const user = this.props.user;
      return(
@@ -16,7 +22,8 @@ export default class UserListElement extends React.Component{
            </a>
          </td>
          <td>
-           <Button data-id={user.id} data-username={user.username} bsSize="xsmall">
+           <Button data-id={user.id} data-username={user.username} bsSize="xsmall"
+                   onClick={this.modalDeleteShow}>
              Delete <Glyphicon glyph="remove-circle"/>
            </Button>
 
@@ -24,8 +31,17 @@ export default class UserListElement extends React.Component{
        </tr>
      )
    }
+   /*
+   Prompt to delete the user
+    */
+  modalDeleteShow(event){
+     const user_id = Number(event.target.dataset.id);
+     const username = event.target.dataset.username;
+   this.props.dispatch({
+     type:'users.modalDeleteShow',
+     id:user_id,
+     username:username
+   })
+  }
 }
-/*//Make sure to have all the props
-UserListElement.propTypes = {
-  user : React.propTypes.isRequired
-}*/
+export default connect()(UserListElement);
